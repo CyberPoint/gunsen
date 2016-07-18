@@ -82,8 +82,12 @@ ansible-playbook install.yml --tags manager,tasker,datastore
 Configures the base image and runs in local KVM. Verify
 the ip address of the KVM domain (ipconfig) and limit (-l)
 the playbook only to the identified ip address.
+
+(note) use inventory/prepare.py as a dynamic inventory for
+  local KVM domains this should use BASE-1 as the domain
+  name for the golden image and no longer requires limit (-l)
 ```
-ansible-playbook prepare.yml -l 192.168.122.100
+ansible-playbook prepare.yml -i inventory/prepare.py
 ```
 
 By default, a client will not be re-installed. This
@@ -92,7 +96,7 @@ requires defining a `client` variable.
 Modification of the `roles/do.prepare/tasks.client.yml` can be performed
 to include the installation/management of other project-specific clients.
 ```
-ansible-playbook prepare.yml -l 192.168.122.100 -e "client=1"
+ansible-playbook prepare.yml -i inventory/prepare.py -e "client=1"
 ```
 
 To reduce the amount of time for building/preparing a base image,
@@ -100,7 +104,7 @@ by default, no zeroizing and image compression is performed. In
 order to force the system to compress (which takes much longer),
 define the `compress` variable.
 ```
-ansible-playbook prepare.yml -l 192.168.122.100 -e "compress=1"
+ansible-playbook prepare.yml -i inventory/prepare.py -e "compress=1"
 ```
 
 ## Deploy (deploy.yml)
