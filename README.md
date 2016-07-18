@@ -84,7 +84,7 @@ the ip address of the KVM domain (ipconfig) and limit (-l)
 the playbook only to the identified ip address.
 
 (note) use inventory/prepare.py as a dynamic inventory for
-  local KVM domains this should use BASE-1 as the domain
+  local KVM domains. This should use BASE-1 as the domain
   name for the golden image and no longer requires limit (-l)
 ```
 ansible-playbook prepare.yml -i inventory/prepare.py
