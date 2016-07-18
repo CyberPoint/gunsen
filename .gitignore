@@ -1,0 +1,19 @@
+*.pyc
+*.swp
+*.log
+*.exe
+.idea
+
+# images/templates
+*.qcow2
+*.ovl
+*.img
+*.xml
+*.xmlovl
+
+# inventory
+hosts.*
+
+# custom
+all.yml
+gunsen.yml

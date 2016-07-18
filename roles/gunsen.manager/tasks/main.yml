@@ -1,0 +1,25 @@
+---
+
+  - name: install system packages
+    apt:
+      name: "{{item}}"
+      state: latest
+    with_items:
+    - git
+    - build-essential
+    - libffi-dev
+    - libssl-dev
+    - python-dev
+    - nsis
+    - virt-manager
+    - virt-viewer
+
+  - name: install python packages
+    pip:
+      name: "{{item}}"
+      state: latest
+    with_items:
+    - ansible
+    - xmltodict
+    - pip
+    - pynsist

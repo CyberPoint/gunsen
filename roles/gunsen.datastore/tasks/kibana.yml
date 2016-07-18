@@ -1,0 +1,18 @@
+---
+
+  - name: kibana repo
+    apt_repository:
+      repo: "deb http://packages.elastic.co/kibana/4.5/debian stable main"
+      state: present
+      update_cache: yes
+
+  - name: kibana system install
+    apt:
+      name: kibana
+      state: latest
+
+  - name: kibana service
+    service:
+      name: kibana
+      state: restarted
+      enabled: yes

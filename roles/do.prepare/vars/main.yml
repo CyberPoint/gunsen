@@ -1,0 +1,3 @@
+---
+
+  interface: "(get-wmiobject -class win32_networkadapterconfiguration -filter ipenabled=true)"

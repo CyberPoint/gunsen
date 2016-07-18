@@ -1,0 +1,22 @@
+---
+
+  - name: work path
+    file:
+      path: "{{work_path}}"
+      state: directory
+
+  - name: update system packages
+    apt:
+      upgrade: dist
+      update_cache: yes
+      cache_valid_time: 3600
+
+  - name: system packages
+    apt:
+      name: "{{item}}"
+      state: latest
+    with_items:
+    - python-pip
+    - htop
+    - iftop
+    - tree

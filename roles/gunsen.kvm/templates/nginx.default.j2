@@ -1,0 +1,6 @@
+server {
+  listen 192.168.122.1:80;
+  root {{work_path}}/tmp;
+  server_name _;
+  location / { try_files $uri $uri/ =404; }
+}

@@ -1,0 +1,22 @@
+---
+
+  - name: windows
+    include: windows.yml
+
+  - name: pause
+    pause:
+      minutes: 1
+
+  - name: compress and export image
+    local_action: "shell python prepare.py --compress chdir={{playbook_dir}}/scripts"
+    when: compress is defined
+    register: prep
+
+  - name: export image
+    local_action: "shell python prepare.py --export chdir={{playbook_dir}}/scripts"
+    when: compress is not defined
+    register: prep
+
+  - name: output
+    debug:
+      msg: "{{prep.stdout}}"

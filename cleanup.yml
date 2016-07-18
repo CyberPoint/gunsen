@@ -1,0 +1,7 @@
+---
+
+  - name: cleanup kvms
+    hosts: kvm
+    roles:
+    - do.cleanup
+    become: true

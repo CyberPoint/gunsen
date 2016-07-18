@@ -1,0 +1,26 @@
+---
+
+  - name: web path
+    file:
+      path: "{{work_path}}/tmp"
+      state: directory
+      owner: "{{ansible_user}}"
+
+  - name: system packages
+    apt:
+      name: "{{item}}"
+      state: latest
+    with_items:
+    - nginx
+
+  - name: copy default server block
+    template:
+      src: nginx.default.j2
+      dest: /etc/nginx/sites-available/default
+    register: nginx
+
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
+    when: nginx.changed

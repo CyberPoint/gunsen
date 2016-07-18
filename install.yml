@@ -1,0 +1,46 @@
+---
+
+  - name: gunsen
+    hosts: gunsen
+    roles:
+    - gunsen.common
+    tags:
+    - gunsen
+    - kvm
+    - manager
+    - tasker
+    - datastore
+    become: true
+
+  - name: kvm hosts
+    hosts: kvm
+    roles:
+    - gunsen.kvm
+    tags:
+    - kvm
+    become: true
+
+  - name: manager
+    hosts: manager
+    roles:
+    - gunsen.kvm
+    - gunsen.manager
+    tags:
+    - manager
+    become: true
+
+  - name: tasker
+    hosts: tasker
+    roles:
+    - gunsen.tasker
+    tags:
+    - tasker
+    become: true
+
+  - name: datastore
+    hosts: datastore
+    roles:
+    - gunsen.datastore
+    tags:
+    - datastore
+    become: true

@@ -1,0 +1,29 @@
+---
+
+  - name: logstash repo
+    apt_repository:
+      repo: "deb https://packages.elastic.co/logstash/2.3/debian stable main"
+      state: present
+      update_cache: yes
+
+  - name: logstash system
+    apt:
+      name: logstash
+      state: latest
+
+  - name: logstash start
+    lineinfile:
+      line: "START=yes"
+      dest: /etc/default/logstash
+      state: present
+
+  - name: logastash config
+    template:
+      src: logstash_conf.j2
+      dest: /etc/logstash/conf.d/logstash.conf
+
+  - name: logstash service
+    service:
+      name: logstash
+      state: restarted
+      enabled: yes

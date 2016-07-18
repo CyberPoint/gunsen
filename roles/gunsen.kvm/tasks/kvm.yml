@@ -1,0 +1,44 @@
+---
+
+  - name: system packages
+    apt:
+      name: "{{item}}"
+      state: latest
+    with_items:
+    - apparmor-utils
+    - libvirt-dev
+    - libvirt-bin
+    - python-libvirt
+    - qemu-kvm
+    - qemu-utils
+
+  - name: libvirt group
+    user:
+      name: "{{ansible_user}}"
+      state: present
+      append: yes
+      groups: kvm,libvirtd
+
+  - name: qemu.conf
+    lineinfile:
+      dest: /etc/libvirt/qemu.conf
+      line: "{{item}}"
+      state: present
+    with_items:
+    - user = "root"
+    - group = "root"
+    register: qemu_conf
+
+  - name: restart libvirt
+    service:
+      name: libvirt-bin
+      state: restarted
+    when: qemu_conf.changed
+
+  - name: check virt-aa-helper
+    command: aa-status
+    register: apparmor
+
+  - name: disable virt-aa-helper
+    command: aa-disable /usr/lib/libvirt/virt-aa-helper
+    when: "'virt-aa-helper' in apparmor.stdout"

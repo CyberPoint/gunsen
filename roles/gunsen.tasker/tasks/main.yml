@@ -1,0 +1,12 @@
+---
+
+  - name: ntp system
+    apt:
+      name: "{{item}}"
+      state: latest
+    with_items:
+    - ntp
+    - ntpdate
+
+  - name: rabbitmq
+    include: rabbitmq.yml

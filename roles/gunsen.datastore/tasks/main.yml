@@ -1,0 +1,27 @@
+---
+
+  - name: system packages
+    apt:
+      name: "{{item}}"
+      update_cache: yes
+      state: latest
+    with_items:
+    - apache2
+    - default-jre-headless
+
+  - name: services
+    service:
+      name: "{{item}}"
+      state: restarted
+      enabled:  yes
+    with_items:
+    - apache2
+
+  - name: elasticsearch
+    include: elasticsearch.yml
+
+  - name: logstash
+    include: logstash.yml
+
+  - name: kibana
+    include: kibana.yml

@@ -1,0 +1,57 @@
+---
+
+  - name: rabbitmq key
+    apt_key:
+      url: 'https://www.rabbitmq.com/rabbitmq-release-signing-key.asc'
+      state: present
+
+  - name: rabbitmq repo
+    apt_repository:
+      repo: 'deb http://www.rabbitmq.com/debian/ testing main'
+      state: present
+
+  - name: rabbitmq system
+    apt:
+      name: rabbitmq-server
+      state: latest
+
+  - name: python pika
+    pip:
+      name: pika
+      state: latest
+
+  - name: rabbitmq vhost
+    rabbitmq_vhost:
+      vhost: "{{rmq_vhost}}"
+
+  - name: rabbitmq plugin
+    rabbitmq_plugin:
+      name: rabbitmq_management
+      state: enabled
+
+  - name: rabbitmq admin
+    rabbitmq_user:
+      user: "{{rmq_admin}}"
+      password: "{{rmq_apass}}"
+      tags: "{{rmq_atags}}"
+      vhost: "{{rmq_vhost}}"
+      configure_priv: ".*"
+      read_priv: ".*"
+      write_priv: ".*"
+      state: present
+
+  - name: rabbitmq user
+    rabbitmq_user:
+      user: "{{rmq_user}}"
+      password: "{{rmq_pass}}"
+      tags: "{{rmq_tags}}"
+      vhost: "{{rmq_vhost}}"
+      configure_priv: ".*"
+      read_priv: ".*"
+      write_priv: ".*"
+      state: present
+
+  - name: rabbitmq guest disable
+    rabbitmq_user:
+      user: guest
+      state: absent

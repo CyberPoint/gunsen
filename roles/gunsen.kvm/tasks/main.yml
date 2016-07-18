@@ -1,0 +1,25 @@
+---
+
+  - name: name
+    template:
+      src: name.j2
+      dest: "{{work_path}}/kvm.name"
+
+  - name: python packages
+    pip:
+      name: "{{item}}"
+      state: latest
+    with_items:
+    - pywinrm
+
+  - name: install/configure nginx
+    include: nginx.yml
+
+  - name: check kvm
+    stat:
+      path: /usr/bin/kvm
+    register: kvm
+
+  - name: install/configure kvm
+    include: kvm.yml
+    when: kvm.stat.exists

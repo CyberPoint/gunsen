@@ -1,0 +1,8 @@
+---
+
+  - name: cleanup
+    script: "{{playbook_dir}}/scripts/kvm_cleanup.py -p {{work_path}}"
+
+  - name: wipe out
+    script: "{{playbook_dir}}/scripts/kvm_cleanup.py -w -p {{work_path}}"
+    when: wipe is defined

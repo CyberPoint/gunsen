@@ -1,0 +1,12 @@
+---
+
+base_qcow: base.qcow2
+qcow_template: template.xml
+work_path: /haka
+
+tasking_address: 10.0.0.1
+datastore_address: 10.0.0.1
+ntp_server: 10.0.0.1
+
+node_vmem: "2048"
+node_vcpu: "1"

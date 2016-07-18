@@ -1,0 +1,40 @@
+---
+
+  - name: elasticsearch key
+    apt_key:
+      url: "https://packages.elastic.co/GPG-KEY-elasticsearch"
+      state: present
+
+  - name: elasticsearch repo
+    apt_repository:
+      repo: "deb https://packages.elastic.co/elasticsearch/2.x/debian stable main"
+      state: present
+      update_cache: yes
+
+  - name: elasticsearch system install
+    apt:
+      name: elasticsearch
+      state: latest
+
+  - name: elasticsearch python install
+    pip:
+      name: "{{item}}"
+      state: latest
+    with_items:
+    - elasticsearch
+    - elasticsearch_dsl
+
+  - name: check elasticsearch-HQ plugin
+    command: "{{es_path}}/bin/plugin list"
+    register: es_plugin
+
+  - name: install elasticsearch-HQ plugin
+    command: "{{es_path}}/bin/plugin install royrusso/elasticsearch-HQ"
+    when:
+    - "'hq' not in es_plugin.stdout"
+
+  - name: elasticsearch service
+    service:
+      name: elasticsearch
+      state: restarted
+      enabled: yes

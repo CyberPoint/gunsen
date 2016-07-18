@@ -1,0 +1,10 @@
+---
+
+ansible_user: "{{node_username}}"
+ansible_password: "{{node_password}}"
+ansible_port: 5986
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore
+
+# kvm default network gw/dns
+dns_server: 192.168.122.1

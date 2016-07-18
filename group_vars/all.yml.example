@@ -1,0 +1,20 @@
+---
+
+node_username: username
+node_password: password
+
+kvm_username: username
+kvm_password: password
+
+rmq_admin: username
+rmq_apass: password
+rmq_atags: tags
+rmq_vhost: vhost
+
+rmq_user: username
+rmq_pass: password
+rmq_tags: tags
+
+rmq_exch: rmq_exchange
+rmq_key: rmq_key
+rmq_queue: rmq_queue

@@ -1,0 +1,6 @@
+---
+
+  - name: prepare image
+    hosts: prepare
+    roles:
+    - do.prepare

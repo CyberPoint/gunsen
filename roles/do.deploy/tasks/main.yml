@@ -1,0 +1,22 @@
+---
+
+  - name: copy base template
+    copy:
+      src: "{{qcow_template}}"
+      dest: "{{work_path}}"
+      mode: "0644"
+
+  - name: copy base image
+    copy:
+      src: "{{base_qcow}}"
+      dest: "{{work_path}}"
+      mode: "0644"
+
+  - name: copy kvm_create.py
+    copy:
+      src: "{{playbook_dir}}/scripts/kvm_create.py"
+      dest: "{{work_path}}"
+      mode: "0755"
+
+  - name: run kvm_create.py
+    command: "python kvm_create.py {{base_qcow}} {{qcow_template}} -n haka --cpu {{node_vcpu}} --mem {{node_vmem}} -c {{node_count}} chdir={{work_path}}"

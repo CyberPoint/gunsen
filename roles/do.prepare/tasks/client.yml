@@ -1,0 +1,17 @@
+---
+# client installation
+
+  - name: upload client
+    win_copy:
+      src: haka_client.exe
+      dest: c:/temp/haka-client.exe
+    register: client_install
+
+  - name: install client
+    win_package:
+      name: "Haka-Client"
+      product_id: "Haka"
+      path: c:/temp/haka-client.exe
+      arguments: /S
+      state: present
+    when: client_install.changed

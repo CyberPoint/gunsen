@@ -1,0 +1,70 @@
+---
+# windows configuration of base image
+
+  - name: create c:/temp
+    win_file:
+      path: c:/temp
+      state: directory
+
+  - name: modify hosts file
+    win_template:
+      src: hosts.j2
+      dest: c:/windows/system32/drivers/etc/hosts
+
+  - name: disable windows update
+    win_service:
+      name: wuauserv
+      start_mode: manual
+      state: stopped
+
+  - name: disable hibernate
+    win_regedit:
+      key: HKLM:/System/CurrentControlSet/Control/Power
+      value: HibernateEnabled
+      data: 0
+      datatype: dword
+
+  - name: enable w32time service
+    win_service:
+      name: w32time
+      state: started
+      start_mode: auto
+
+  - name: enable winrm service
+    win_service:
+      name: winrm
+      state: started
+      start_mode: auto
+
+  - name: configure ntp
+    win_regedit:
+      key: HKLM:/System/CurrentControlSet/Services/W32Time/Parameters
+      value: NtpServer
+      data: "{{ntp_server}},0x08"
+      datatype: string
+
+  - name: disable windows firewall
+    raw: "netsh advfirewall set allprofiles state off"
+
+  - name: enable dns
+    raw: "$i={{interface}};$i.setdnsserversearchorder('{{dns_server}}');"
+
+  # installation of client
+  - name: client install
+    include: client.yml
+    when: client is defined
+
+  # modify system.yml to include system modification/updates
+  - name: system modification
+    include: system.yml
+
+  - name: disable dns
+    raw: "$i={{interface}};$i.setdnsserversearchorder('127.0.0.1');"
+
+  - name: zeroize free space
+    raw: "c:/tools/sysinternalssuite/sdelete.exe -z"
+    when: compress is defined
+
+  - name: shutdown host
+    raw: "shutdown -s -t 1"
+    ignore_errors: true

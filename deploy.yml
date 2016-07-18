@@ -1,0 +1,8 @@
+---
+
+  - name: deploy nodes
+    hosts: kvm
+    roles:
+    - do.cleanup
+    - do.deploy
+    become: true

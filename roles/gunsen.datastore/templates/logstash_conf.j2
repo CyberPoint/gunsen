@@ -1,0 +1,42 @@
+input
+{
+    udp
+    {
+        type  => "logging"
+        port  => 5959
+        codec => json
+    }
+    udp
+    {
+        type  => "tasking"
+        port  => 5960
+        codec => json
+    }
+    rabbitmq {
+        type  => "reports"
+        host => "{{tasking_address}}"
+        port => 5672
+        user => "{{rmq_user}}"
+        password => "{{rmq_pass}}"
+        vhost => "{{rmq_vhost}}"
+        queue => "{{rmq_queue}}"
+        key => "{{rmq_key}}
+        exchange => "{{rmq_exch}}"
+        exchange_type => "direct"
+    }
+}
+output
+{
+    if [type] == "logging" {
+        elasticsearch {
+            hosts => [ "localhost:9200" ]
+            index => "logging_%{+YYYY.MM.dd}"
+        }
+    }
+    else if [type] == "reports" {
+        elasticsearch {
+            hosts => [ "localhost:9200" ]
+            index => "reports_%{+YYYY.MM.dd}"
+        }
+    }
+}

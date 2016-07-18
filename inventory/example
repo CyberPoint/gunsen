@@ -1,0 +1,27 @@
+[gunsen:children]
+kvm
+manager
+tasker
+datastore
+prepare
+
+[manager]
+192.168.1.2
+
+[tasker]
+192.168.1.2
+
+[datastore]
+192.168.1.2
+
+[kvm]
+192.168.1.10    node_count=8   name=node-10
+192.168.1.11    node_count=8   name=node-11
+192.168.1.12    node_count=8   name=node-12
+192.168.1.13    node_count=8   name=node-13
+192.168.1.14    node_count=8   name=node-14
+192.168.1.15    node_count=8   name=node-15
+
+# kvm net 192.168.122.0/24
+[prepare]
+192.168.122.[2:254]
