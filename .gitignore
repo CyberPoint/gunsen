@@ -12,7 +12,7 @@
 *.xmlovl
 
 # inventory
-hosts.*
+hosts*
 
 # custom
 all.yml
