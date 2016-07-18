@@ -20,7 +20,7 @@ PREP_TEMPLATE_NAME = "haka-7-x86.xml"
 
 def cleanup():
     conn = libvirt.open("qemu:///system")
-    kvm_cleanup.destroy_undefine_domains(conn)
+    kvm_cleanup.destroy_undefine_domains(conn, "BASE-1")
     kvm_cleanup.delete_overlay_templates(PREPARE_PATH)
 
 def compress():
