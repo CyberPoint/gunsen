@@ -12,6 +12,12 @@ input
         port  => 5960
         codec => json
     }
+    udp
+    {
+        type  => "archive"
+        port  => 5961
+        codec => json
+    }
     rabbitmq {
         type  => "reports"
         host => "{{tasking_address}}"
@@ -37,6 +43,12 @@ output
         elasticsearch {
             hosts => [ "localhost:9200" ]
             index => "reports_%{+YYYY.MM.dd}"
+        }
+    }
+    else if [type] == "archive" {
+        elasticsearch {
+            hosts => [ "localhost:9200" ]
+            index => "archive"
         }
     }
 }
