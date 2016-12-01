@@ -127,6 +127,7 @@ class KVMHost(object):
         # download files
         cmd = '(new-object system.net.webclient).downloadfile("http://{}/{}","{}"); write-host -nonewline downloaded'
         cmd = cmd.format(web_srv, fname, win_path)
+
         self.command_nodes(
             node_name=node_name,
             node_user=node_user,
@@ -239,9 +240,12 @@ class KVMHost(object):
         """
         wrm = []
         wrm.append("import winrm")
-        w = 'print winrm.Session("{}",auth=("{}","{}")).run_ps("""{}""")'
+        w = 'res = winrm.Session("{}",auth=("{}","{}")).run_ps("""{}""")'
         w = w.format(hostname, username, password, command)
         wrm.append(w)
+        wrm.append('print res')
+        wrm.append('print "out: {}".format(res.std_out)')
+        wrm.append('print "err: {}".format(res.std_err)')
         wrm = ";".join(wrm).strip()
         cmd = """python -c '{}'""".format(wrm)
         return cmd
