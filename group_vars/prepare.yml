@@ -8,3 +8,4 @@ ansible_winrm_server_cert_validation: ignore
 
 # kvm default network gw/dns
 dns_server: 192.168.122.1
+crash_path: "c:/dumps"

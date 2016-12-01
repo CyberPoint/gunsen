@@ -16,7 +16,9 @@
       name: "{{item}}"
       state: latest
     with_items:
-    - python-pip
+    - curl
     - htop
     - iftop
+    - iptables-persistent
+    - python-pip
     - tree

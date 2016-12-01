@@ -19,7 +19,7 @@
 
   - name: disable hibernate
     win_regedit:
-      key: HKLM:/System/CurrentControlSet/Control/Power
+      key: HKLM:\System\CurrentControlSet\Control\Power
       value: HibernateEnabled
       data: 0
       datatype: dword
@@ -38,10 +38,39 @@
 
   - name: configure ntp
     win_regedit:
-      key: HKLM:/System/CurrentControlSet/Services/W32Time/Parameters
+      key: HKLM:\System\CurrentControlSet\Services\W32Time\Parameters
       value: NtpServer
       data: "{{ntp_server}},0x08"
       datatype: string
+
+  - name: create crash dump path
+    win_file:
+      path: "{{crash_path}}"
+      state: directory
+
+  - name: crash dumps regkey - crash path
+    win_regedit:
+      key: HKLM:\Software\Microsoft\Windows\Windows Error Reporting\LocalDumps
+      value: DumpFolder
+      data: "{{crash_path}}"
+      datatype: string
+
+  - name: crash dumps regkeys
+    win_regedit:
+      key: HKLM:\Software\Microsoft\Windows\Windows Error Reporting\LocalDumps"
+      value: "{{item.v}}"
+      data: "{{item.d}}"
+      datatype: dword
+    with_items:
+    - { "v": "DumpCount", "d": "10" }
+    - { "v": "DumpType", "d": "2" }
+    - { "v": "CustomDumpFlags", "d": "0" }
+
+  - name: disable windows error reporting
+    win_service:
+      name: wersvc
+      state: stopped
+      start_mode: disabled
 
   - name: disable windows firewall
     raw: "netsh advfirewall set allprofiles state off"
