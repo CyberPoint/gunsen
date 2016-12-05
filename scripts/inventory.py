@@ -112,10 +112,8 @@ class KVMHost(object):
             err = stderr.read()
             out = stdout.read()
             if err:
-                print "[STDERR]"
                 print err
             if out:
-                print "[STDOUT]"
                 print out
             try:
                 sftp.put(local_path, kvm_path)
@@ -182,10 +180,8 @@ class KVMHost(object):
             err = stderr.read()
             out = stdout.read()
             if err:
-                print "[STDERR]"
                 print err
             if out:
-                print "[STDOUT]"
                 print out
         finally:
             ssh.close()
