@@ -22,4 +22,3 @@
 
   - name: install/configure kvm
     include: kvm.yml
-    when: kvm.stat.exists
