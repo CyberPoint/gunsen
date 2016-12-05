@@ -243,7 +243,6 @@ class KVMHost(object):
         w = 'res = winrm.Session("{}",auth=("{}","{}")).run_ps("""{}""")'
         w = w.format(hostname, username, password, command)
         wrm.append(w)
-        wrm.append('print res')
         wrm.append('print "out: {}".format(res.std_out)')
         wrm.append('print "err: {}".format(res.std_err)')
         wrm = ";".join(wrm).strip()
